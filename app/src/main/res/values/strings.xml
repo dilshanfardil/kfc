@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">JungleApp</string>
+
+    <string name="web_client_id">67057956154-cir43unhotv18qkqv5n8cm4pl3u63g3u.apps.googleusercontent.com</string>
+    <string name="auth_url">https://forest-239510.firebaseapp.com/__/auth/handler</string>
+
+    <string name="facebook_app_id">451614125663991</string>
+    <string name="fb_login_protocol_scheme">fb451614125663991</string>
+
+
+</resources>

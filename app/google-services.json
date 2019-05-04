@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "67057956154",
+    "firebase_url": "https://forest-239510.firebaseio.com",
+    "project_id": "forest-239510",
+    "storage_bucket": "forest-239510.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67057956154:android:d9a4a22e75027fa5",
+        "android_client_info": {
+          "package_name": "lk.sayuru.jungleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67057956154-sdpr0u550nc2hk5dgergkkbs4ihau1m1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lk.sayuru.jungleapp",
+            "certificate_hash": "c1077147fc266ae54c2f131822c40ec6e0515067"
+          }
+        },
+        {
+          "client_id": "67057956154-cir43unhotv18qkqv5n8cm4pl3u63g3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQMzAc8BO0K95oQzZoo2uRuCXH8fKQ5Vg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67057956154-cir43unhotv18qkqv5n8cm4pl3u63g3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
