@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     // Google Sign In failed, update UI appropriately
                     Log.w(TAG, "Google sign in failed", e);
                     // [START_EXCLUDE]
-                    updateUI(null);
+//                    updateUI(null);
                     // [END_EXCLUDE]
                 }
 
@@ -261,6 +261,8 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
 
+
+//                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -312,7 +314,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-//        hideProgressDialog();
         if(user != null){
             Toast.makeText(this,"Login Done : "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this,ChooseActivity.class));

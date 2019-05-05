@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="grey_100">#F5F5F5</color>
+
+    <color name="colorWhite">#fff</color>
+    <color name="colorShadowBg">#CABBBBBB</color>
+    <color name="colorPressureBg">#880e4f</color>
+    <color name="colorHumidityBg">#0d47a1</color>
+    <color name="colorRainfallBg">#2962ff</color>
+    <color name="colorTemperatureBg">#E65100</color>
 </resources>
