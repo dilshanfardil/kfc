@@ -13,7 +13,8 @@
         android:id="@+id/stationNames"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3" />
+        android:layout_weight="0.3"
+        android:layout_margin="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,11 +45,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="10dp">
                 <ImageView
                     android:id="@+id/icnRound"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/icn_humidity" />
             </LinearLayout>
         </LinearLayout>
@@ -65,7 +67,7 @@
                 android:text="@string/humidityValue"
                 android:gravity="center_vertical"
                 android:textColor="#fff"
-                android:textSize="100sp" />
+                android:textSize="60sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -105,11 +107,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp">
                 <ImageView
                     android:id="@+id/icnTemperature"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/icn_temperature" />
             </LinearLayout>
         </LinearLayout>
@@ -126,7 +129,7 @@
                 android:text="@string/temperatureValue"
                 android:gravity="center_vertical"
                 android:textColor="#fff"
-                android:textSize="100sp" />
+                android:textSize="60sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -166,11 +169,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp">
                 <ImageView
                     android:id="@+id/icnRainfall"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/icn_rainfall" />
             </LinearLayout>
         </LinearLayout>
@@ -227,11 +231,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|center_horizontal">
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_margin="10dp">
                 <ImageView
                     android:id="@+id/icnPressure"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/icn_pressure" />
             </LinearLayout>
         </LinearLayout>
