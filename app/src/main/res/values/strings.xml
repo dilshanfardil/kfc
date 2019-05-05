@@ -15,5 +15,22 @@
         <item>Rathnapura</item>
     </string-array>
 
+    <string name="humidity_topic">Humidity</string>
+    <string name="temperature_topic">Temperature</string>
+    <string name="rainfall_topic">Rainfall</string>
+    <string name="Pressure_topic">Pressure</string>
+
+    <string name="humidityPresentageMark">%</string>
+    <string name="temperatureUnit">\u00B0C</string>
+    <string name="rainfallUnit">mm</string>
+    <string name="pressureUnit">hPa</string>
+
+    <string name="humidityValue">67</string>
+    <string name="temperatureValue">28</string>
+    <string name="rainfallValue">1200</string>
+    <string name="pressureValue">100</string>
+
+    <string name="signInWithSMS">SignIn with SMS</string>
+
 
 </resources>
