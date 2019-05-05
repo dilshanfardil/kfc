@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("*********** " + error.getMessage());
                 Log.d(TAG, "facebook:onError"+error.toString(), error);
                 Toast.makeText(MainActivity.this, "facebook:onError." , Toast.LENGTH_SHORT).show();
-                // ...
             }
         });
 
@@ -170,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
 
         if(FIREBASE_USER!=null){
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this,SensorValues.class));
             finish();
         }
     }
@@ -198,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     // Google Sign In failed, update UI appropriately
                     Log.w(TAG, "Google sign in failed", e);
                     // [START_EXCLUDE]
-                    updateUI(null);
+//                    updateUI(null);
                     // [END_EXCLUDE]
                 }
 
@@ -233,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            startActivity(new Intent(MainActivity.this,MainActivity.class));
+
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -286,9 +285,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-//        hideProgressDialog();
         if(user != null){
-            Toast.makeText(this,"Login Done"+user.getDisplayName(), Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MainActivity.this,SensorValues.class));
         }else{
             Toast.makeText(this,"Loggin Fail", Toast.LENGTH_LONG).show();
         }

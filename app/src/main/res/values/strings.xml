@@ -7,5 +7,13 @@
     <string name="facebook_app_id">451614125663991</string>
     <string name="fb_login_protocol_scheme">fb451614125663991</string>
 
+    <string-array name="stations_array">
+        <item>Colombo</item>
+        <item>Galle</item>
+        <item>Kandy</item>
+        <item>Kurunegala</item>
+        <item>Rathnapura</item>
+    </string-array>
+
 
 </resources>
