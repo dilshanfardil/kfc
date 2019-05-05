@@ -32,5 +32,7 @@
 
     <string name="signInWithSMS">SignIn with SMS</string>
 
+    <string name="stations">Please Select the Station</string>
+
 
 </resources>
