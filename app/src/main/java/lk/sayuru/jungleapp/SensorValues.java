@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +48,9 @@ public class SensorValues extends AppCompatActivity {
         mRef = FirebaseDatabase.getInstance().getReference();
 
         mDatabase = mRef.getDatabase().getReference();
+        DatabaseReference sensorValues = mDatabase.child("SensorValues").child("Colombo");
+        initialSetText(sensorValues);
+
 
         childEventListener = mRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -58,7 +61,20 @@ public class SensorValues extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 selectedItem = spinner.getSelectedItem().toString();
-                Toast.makeText(SensorValues.this,"Properties Are Changing " + dataSnapshot.getKey(), Toast.LENGTH_LONG).show();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren() ;
+
+                for (DataSnapshot element : children) {
+                    System.out.println(element.toString() + "*******************************");
+                    if(element.getKey().equals(selectedItem)){
+                        DatabaseReference sensorValues = mDatabase.child("SensorValues").child(selectedItem);
+
+                        Toast.makeText(SensorValues.this,"Properties Are Changing " + element.getValue(SensorStations.class)  , Toast.LENGTH_LONG).show();
+                        setValuesToFields(element.getValue(SensorStations.class));
+                    }
+
+                }
+
+
                 System.out.println("------------------------------- " + selectedItem);
             }
 
@@ -77,6 +93,27 @@ public class SensorValues extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void initialSetText(DatabaseReference sensorValues) {
+
+        SensorStations s = new SensorStations(0,0,0,0);
+        setValuesToFields(s);
+
+    }
+
+    private void setValuesToFields(SensorStations value) {
+
+        TextView humuduty = findViewById(R.id.txtHumidity);
+        TextView pressure = findViewById(R.id.txtPressure);
+        TextView rainFall = findViewById(R.id.txtRainfall);
+        TextView temp = findViewById(R.id.txtTemparature);
+
+        humuduty.setText(value.getHumidity() + "");
+        pressure.setText(value.getPressure() + "");
+        rainFall.setText(value.getRainFall() + "");
+        temp.setText(value.getTemperature() + "");
 
     }
 }
