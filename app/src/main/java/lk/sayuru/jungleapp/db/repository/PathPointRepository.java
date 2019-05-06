@@ -18,6 +18,9 @@ package lk.sayuru.jungleapp.db.repository;
 
 import android.content.Context;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -46,8 +49,31 @@ public class PathPointRepository {
         return pathPontDao.getAll();
     }
 
-    public void deleteAllData(){
+    public List<LatLng> getAllPoints(){
+        List<LatLng> points=new ArrayList<>();
         List<PathPoint> all = pathPontDao.getAll();
+        for (PathPoint pathPoint : all) {
+            if (pathPoint.isToView())continue;
+            points.add(pathPoint.getLatLng());
+        }
+        return points;
+    }
+
+    public void deleteAllDataAddedPoints(){
+        List<PathPoint> all = pathPontDao.getAll();
+        List<PathPoint> all2=new ArrayList<>(all);
+        for (PathPoint pathPoint : all2) {
+            if (pathPoint.isToView())all.remove(pathPoint);
+        }
+        pathPontDao.deleteAll(all);
+    }
+
+    public void deleteAllViewPoints(){
+        List<PathPoint> all = pathPontDao.getAll();
+        List<PathPoint> all2=new ArrayList<>(all);
+        for (PathPoint pathPoint : all2) {
+            if (!pathPoint.isToView())all.remove(pathPoint);
+        }
         pathPontDao.deleteAll(all);
     }
 }

@@ -28,7 +28,7 @@ import lk.sayuru.jungleapp.db.entity.PathPoint;
  * property rights in these materials.
  *
  */
-@Database(entities = {Contact.class, PathPoint.class},version = 2,exportSchema = false)
+@Database(entities = {Contact.class, PathPoint.class},version = 4,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ContactDao contactDao();
     public abstract PathPontDao pathPontDao();

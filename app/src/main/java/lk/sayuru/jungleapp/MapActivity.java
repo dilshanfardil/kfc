@@ -20,11 +20,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -50,10 +50,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Map;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , OnMapReadyCallback {
@@ -63,12 +63,17 @@ public class MapActivity extends AppCompatActivity
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =0 ;
+    public static boolean IS_TO_VIEW_PATH=false;
     private boolean mLocationPermissionGranted=false;
     private GoogleMap mMap;
     Button btnSOS;
 
 
     Polyline polyline;
+    Polyline polylineViewPath;
+    int count;
+
+
     private boolean waitUntilFinish;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -91,8 +96,8 @@ public class MapActivity extends AppCompatActivity
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.pathPointRepository.deleteAllData();
-                polyline.remove();
+                btnSaveClicked();
+
             }
         });
         btnSOS = findViewById(R.id.btnSOS);
@@ -116,41 +121,122 @@ public class MapActivity extends AppCompatActivity
         allLive.observe(this, new Observer<List<PathPoint>>() {
             @Override
             public void onChanged(@Nullable List<PathPoint> pathPoints) {
-                if (mMap==null)return;
+                while (mMap==null){
+
+                }
                 if (polyline!=null)polyline.remove();
-                PolylineOptions options = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+                if (polylineViewPath!=null)polylineViewPath.remove();
+                PolylineOptions options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
+                PolylineOptions optionsViewPath = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+                count = 0;
+                final LatLngBounds.Builder[] builder=new LatLngBounds.Builder[1];
+                builder[0]= new LatLngBounds.Builder();
                 for (PathPoint pathPoint : pathPoints) {
-                    options.add(pathPoint.getLatLng());
+                    if(pathPoint.isToView()){
+                        optionsViewPath.add(pathPoint.getLatLng());
+
+                    }else {
+                        options.add(pathPoint.getLatLng());
+                    }
+                    builder[0].include(pathPoint.getLatLng());
+                    count++;
                 }
                 polyline = mMap.addPolyline(options);
+                polylineViewPath = mMap.addPolyline(optionsViewPath);
+                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                    @Override
+                    public void onMapLoaded() {
+                        if(count>0){
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder[0].build(), 48));
+                        }
+                    }
+                });
+
             }
         });
+    }
+
+    private void btnSaveClicked() {
+        final String[] place = {"",""};
+        LinearLayout layout = new LinearLayout(MapActivity.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        final EditText placeEditText = new EditText(MapActivity.this);
+        placeEditText.setHint("Place");
+        final EditText pathNameEditText = new EditText(MapActivity.this);
+        pathNameEditText.setHint("Road name");
+        layout.addView(placeEditText);
+        layout.addView(pathNameEditText);
+        AlertDialog dialog = new AlertDialog.Builder(MapActivity.this)
+                .setTitle("Add path to your name:")
+                .setView(layout)
+                .setPositiveButton("Add", null)
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<LatLng> all = MainActivity.pathPointRepository.getAllPoints();
+                        if(all.size()==0){
+                            Toast.makeText(MapActivity.this, "There is no points add", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            return;
+                        }
+                        place[0] =(placeEditText.getText().toString());
+                        place[1]=pathNameEditText.getText().toString();
+                        if(place[0].equals("") || place[1].equals("")){
+                            if (place[0].equals(""))placeEditText.setError("This field is required");
+                            if (place[1].equals(""))pathNameEditText.setError("This field is required");
+                            return;
+                        }else {
+
+                            String PlaceName = place[0].replace(" ", "");
+                            String pathName = place[1].replace(" ", "");
+                            MainActivity.mRef.child("Map")
+                                    .child(PlaceName)
+                                    .child(pathName)
+                                    .child("Path").setValue(all);
+                            MainActivity.mRef.child("Map")
+                                    .child(PlaceName)
+                                    .child(pathName)
+                                    .child("Publisher").setValue(MainActivity.FIREBASE_USER.getUid());
+                            MainActivity.pathPointRepository.deleteAllDataAddedPoints();
+                            Toast.makeText(MapActivity.this, "Uploading successful", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+        dialog.show();
     }
 
     private void addMarkerPoint() {
         LatLng latLng = mMap.getCameraPosition().target;
         final PathPoint pathPoint = new PathPoint();
         pathPoint.setLatLng(latLng);
-        getDescriptionAndInsertData(pathPoint);
-
+        MainActivity.pathPointRepository.insert(pathPoint);
     }
-    private void getDescriptionAndInsertData(final PathPoint pathPoint) {
-        final EditText taskEditText = new EditText(this);
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Add new point")
-                .setMessage("What are the significance of this point")
-                .setView(taskEditText)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        pathPoint.setDescription(taskEditText.getText().toString());
-                        MainActivity.pathPointRepository.insert(pathPoint);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .create();
-        dialog.show();
-    }
+//    private void getDescriptionAndInsertData(final PathPoint pathPoint) {
+//        final EditText taskEditText = new EditText(this);
+//        AlertDialog dialog = new AlertDialog.Builder(this)
+//                .setTitle("Add new point")
+//                .setMessage("What are the significance of this point")
+//                .setView(taskEditText)
+//                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        pathPoint.setDescription(taskEditText.getText().toString());
+//                        MainActivity.pathPointRepository.insert(pathPoint);
+//                    }
+//                })
+//                .setNegativeButton("Cancel", null)
+//                .create();
+//        dialog.show();
+//    }
 
     @Override
     public void onBackPressed() {
@@ -158,6 +244,9 @@ public class MapActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            MainActivity.pathPointRepository.deleteAllViewPoints();
+            if (polylineViewPath!=null)polylineViewPath.remove();
+            count=0;
             super.onBackPressed();
         }
     }
@@ -194,7 +283,7 @@ public class MapActivity extends AppCompatActivity
             // Handle the camera action
             startActivity(new Intent(MapActivity.this, ContactActivity.class));
         } else if (id == R.id.nav_gallery) {
-
+            startActivity(new Intent(MapActivity.this,SensorValues.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

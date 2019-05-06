@@ -40,11 +40,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static DatabaseReference mRef;
     public static FirebaseUser FIREBASE_USER = null;
     public static ContactRepository contactRepository;
     public static PathPointRepository pathPointRepository;
@@ -79,9 +81,11 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
+        mRef= FirebaseDatabase.getInstance().getReference();
         contactRepository=new ContactRepository(this);
         pathPointRepository= new PathPointRepository(this);
-        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+        String[] permissions = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.SEND_SMS,
                 Manifest.permission.READ_CONTACTS

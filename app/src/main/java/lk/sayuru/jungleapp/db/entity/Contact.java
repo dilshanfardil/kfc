@@ -26,7 +26,6 @@ public class Contact {
     private int id;
     private String fname;
     private String lname;
-    private String relation;
     private String phoneNo;
 
     @Ignore
@@ -38,10 +37,9 @@ public class Contact {
         this.phoneNo = phoneNo;
     }
 
-    public Contact(String fname, String lname, String relation, String phoneNo) {
+    public Contact(String fname, String lname, String phoneNo) {
         this.setFname(fname);
         this.setLname(lname);
-        this.setRelation(relation);
         this.setPhoneNo(phoneNo);
     }
 
@@ -70,13 +68,6 @@ public class Contact {
         this.lname = lname;
     }
 
-    public String getRelation() {
-        return relation;
-    }
-
-    public void setRelation(String relation) {
-        this.relation = relation;
-    }
 
     public String getPhoneNo() {
         return phoneNo;

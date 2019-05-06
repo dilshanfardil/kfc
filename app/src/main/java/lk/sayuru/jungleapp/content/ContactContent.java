@@ -33,7 +33,7 @@ public class ContactContent {
     }
 
     private static ContactItem createItem(Contact contact) {
-        return new ContactItem(String.valueOf(contact.getId()),contact.getFname(),contact.getRelation(),contact.getPhoneNo());
+        return new ContactItem(String.valueOf(contact.getId()),contact.getFname(),contact.getPhoneNo());
     }
 
     public static void makeDetails(List<Contact> contacts) {
@@ -50,13 +50,11 @@ public class ContactContent {
     public static class ContactItem {
         public final String id;
         public final String name;
-        public final String relation;
         public final String phoneNumber;
 
-        public ContactItem(String id, String name, String relation, String phoneNumber) {
+        public ContactItem(String id, String name, String phoneNumber) {
             this.id = id;
             this.name = name;
-            this.relation = relation;
             this.phoneNumber = phoneNumber;
         }
 

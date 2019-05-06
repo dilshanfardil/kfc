@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import lk.sayuru.jungleapp.ItemFragment.OnListFragmentInteractionListener;
+import lk.sayuru.jungleapp.path.PlaceFragment.OnListFragmentInteractionListener;
 import lk.sayuru.jungleapp.content.PlaceContent.PlaceItem;
 
 import java.util.List;
@@ -17,22 +17,24 @@ import java.util.List;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
-
+public class MyPlaceRecyclerViewAdapter extends RecyclerView.Adapter<MyPlaceRecyclerViewAdapter.ViewHolder> {
+    public static MyPlaceRecyclerViewAdapter myPlaceRecyclerViewAdapter;
     private final List<PlaceItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<PlaceItem> items, OnListFragmentInteractionListener listener) {
+    public MyPlaceRecyclerViewAdapter(List<PlaceItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        myPlaceRecyclerViewAdapter=this;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_place, parent, false);
         return new ViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {

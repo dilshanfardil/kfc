@@ -7,30 +7,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import lk.sayuru.jungleapp.ItemFragment.OnListFragmentInteractionListener;
-import lk.sayuru.jungleapp.content.PlaceContent.PlaceItem;
+import lk.sayuru.jungleapp.path.PathFragment.OnListFragmentInteractionListener;
+import lk.sayuru.jungleapp.content.PathContent.PathItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link PlaceItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link PathItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
-
-    private final List<PlaceItem> mValues;
+public class MyPathRecyclerViewAdapter extends RecyclerView.Adapter<MyPathRecyclerViewAdapter.ViewHolder> {
+    public static MyPathRecyclerViewAdapter myPathRecyclerViewAdapter;
+    private final List<PathItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<PlaceItem> items, OnListFragmentInteractionListener listener) {
+    public MyPathRecyclerViewAdapter(List<PathItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        myPathRecyclerViewAdapter=this;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_path, parent, false);
         return new ViewHolder(view);
     }
 
@@ -38,7 +39,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).place);
+        holder.mContentView.setText(mValues.get(position).content);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +62,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public PlaceItem mItem;
+        public PathItem mItem;
 
         public ViewHolder(View view) {
             super(view);

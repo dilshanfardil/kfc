@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
@@ -26,17 +27,45 @@ import androidx.room.TypeConverters;
  */
 @Entity(tableName = "Point")
 public class PathPoint {
+
     @PrimaryKey(autoGenerate = true)
     private int id;
     @TypeConverters(LatLngConvertor.class)
     private LatLng latLng;
-    private String description;
+    private boolean toView =false;
 
-
+    @Ignore
     public PathPoint() {
     }
+    @Ignore
+    public PathPoint(LatLng latLng, boolean toView) {
+        this.latLng = latLng;
+        this.toView = toView;
+    }
 
+    @Ignore
+    public PathPoint( LatLng latLng) {
+        this.latLng = latLng;
+    }
+    @Ignore
+    public PathPoint(int id, LatLng latLng) {
+        this.id = id;
+        this.latLng = latLng;
+    }
 
+    public PathPoint(int id, LatLng latLng, boolean toView) {
+        this.id = id;
+        this.latLng = latLng;
+        this.toView = toView;
+    }
+
+    public boolean isToView() {
+        return toView;
+    }
+
+    public void setToView(boolean toView) {
+        this.toView = toView;
+    }
 
     public int getId() {
         return id;
@@ -54,13 +83,6 @@ public class PathPoint {
         this.latLng = latLng;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public static class LatLngConvertor{
         @TypeConverter

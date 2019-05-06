@@ -47,7 +47,6 @@ public class ContactFragment extends Fragment {
                 mViewModel.contact = new Contact(
                         fname.getText().toString(),
                         lname.getText().toString(),
-                        relation.getText().toString(),
                         phoneNumber.getText().toString()
                 );
 
