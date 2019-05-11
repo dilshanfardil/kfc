@@ -2,9 +2,14 @@ package lk.sayuru.jungleapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import lk.sayuru.jungleapp.db.repository.ContactRepository;
+import lk.sayuru.jungleapp.db.repository.PathPointRepository;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,19 +40,26 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static DatabaseReference mRef;
     public static FirebaseUser FIREBASE_USER = null;
-
+    public static ContactRepository contactRepository;
+    public static PathPointRepository pathPointRepository;
     private boolean fbstatus=false;
     private boolean googleStatus=false;
 
 
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String SEND_SMS = Manifest.permission.SEND_SMS;
+    private static final String READ_CONTACTS = Manifest.permission.READ_CONTACTS;
 
     // [START declare_auth]
     public static FirebaseAuth mAuth;
@@ -69,10 +81,29 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
+        mRef= FirebaseDatabase.getInstance().getReference();
+        contactRepository=new ContactRepository(this);
+        pathPointRepository= new PathPointRepository(this);
+        String[] permissions = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.READ_CONTACTS
+        };
 
-
-
-
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this.getApplicationContext(), READ_CONTACTS) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,SEND_SMS)!= PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, 10);
+        }
+//        if (ContextCompat.checkSelfPermission(this,SEND_SMS)!= PackageManager.PERMISSION_GRANTED) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.SEND_SMS)) {
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.SEND_SMS},10);
+//            }
+//        }
         // [START config_signin]
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -132,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("*********** " + error.getMessage());
                 Log.d(TAG, "facebook:onError"+error.toString(), error);
                 Toast.makeText(MainActivity.this, "facebook:onError." , Toast.LENGTH_SHORT).show();
+                // ...
             }
         });
 
@@ -169,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
 
         if(FIREBASE_USER!=null){
-            startActivity(new Intent(this,SensorValues.class));
+            startActivity(new Intent(this,ChooseActivity.class));
             finish();
         }
     }
@@ -233,7 +265,8 @@ public class MainActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
 
-                            finish();
+
+//                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -286,23 +319,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if(user != null){
-            startActivity(new Intent(MainActivity.this,SensorValues.class));
+            Toast.makeText(this,"Login Done : "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(MainActivity.this,ChooseActivity.class));
+            finish();
         }else{
-            Toast.makeText(this,"Loggin Fail", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Loggin Fail", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

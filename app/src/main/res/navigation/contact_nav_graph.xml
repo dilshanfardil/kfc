@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contact_nav_graph"
+    app:startDestination="@id/contactListFragment">
+
+    <fragment
+        android:id="@+id/contactListFragment"
+        android:name="lk.sayuru.jungleapp.contact.ContactListFragment"
+        android:label="fragment_contactlist_list"
+        tools:layout="@layout/fragment_contactlist_list" >
+        <action
+            android:id="@+id/action_contactList_to_contact"
+            app:destination="@+id/contactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="lk.sayuru.jungleapp.contact.ContactFragment"
+        android:label="contact_fragment"
+        tools:layout="@layout/contact_fragment" >
+        <action
+            android:id="@+id/action_contact_to_contactList"
+            app:destination="@id/contactListFragment" />
+    </fragment>
+</navigation>

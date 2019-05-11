@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
     android:orientation="vertical">
 
     <LinearLayout
@@ -30,12 +29,11 @@
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal">
 
-        <Button
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorShadowBg"
-            android:text="@string/signInWithSMS"
-            android:textAllCaps="false" />
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
 </LinearLayout>
