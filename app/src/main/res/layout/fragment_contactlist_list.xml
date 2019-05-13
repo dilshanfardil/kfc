@@ -12,7 +12,8 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".contact.ContactListFragment"
-    tools:listitem="@layout/fragment_contactlist" >
+    tools:listitem="@layout/fragment_contactlist"
+    android:background="@drawable/backgroundwithoutimage">
 </androidx.recyclerview.widget.RecyclerView>
 
 

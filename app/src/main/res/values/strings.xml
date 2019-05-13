@@ -45,5 +45,7 @@
 
     <string name="stations">Please Select the Station</string>
 
+    <string name="viewPath">View Path</string>
+    <string name="addPath">Add Path</string>
 
 </resources>

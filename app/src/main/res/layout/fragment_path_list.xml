@@ -10,4 +10,5 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".path.PathFragment"
-    tools:listitem="@layout/fragment_path" />
+    tools:listitem="@layout/fragment_path"
+    android:background="@drawable/backgroundwithoutimage"/>
