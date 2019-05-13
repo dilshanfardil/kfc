@@ -39,4 +39,7 @@ public interface PathPontDao {
     @Delete
     void deleteAll(List<PathPoint> pathPoints);
 
+    @Delete
+    void delete(PathPoint pathPoint);
+
 }

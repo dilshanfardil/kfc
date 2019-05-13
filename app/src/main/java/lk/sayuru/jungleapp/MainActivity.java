@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mRef= FirebaseDatabase.getInstance().getReference();
+        mRef.keepSynced(true);
         contactRepository=new ContactRepository(this);
         pathPointRepository= new PathPointRepository(this);
         String[] permissions = {

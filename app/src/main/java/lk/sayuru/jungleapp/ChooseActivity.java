@@ -19,6 +19,7 @@ public class ChooseActivity extends AppCompatActivity implements PlaceFragment.O
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.pathPointRepository.deleteAllViewPoints();
                 startActivity(new Intent(ChooseActivity.this,MapActivity.class));
             }
         });
@@ -27,6 +28,7 @@ public class ChooseActivity extends AppCompatActivity implements PlaceFragment.O
         btnViewPath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MainActivity.pathPointRepository.deleteAllDataAddedPoints();
                 startActivity(new Intent(ChooseActivity.this,SelectPathActivity.class));
             }
         });

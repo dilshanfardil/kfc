@@ -1,6 +1,7 @@
 package lk.sayuru.jungleapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -73,6 +74,7 @@ public class MapActivity extends AppCompatActivity
     Polyline polylineViewPath;
     int count;
 
+    FloatingActionButton btnRemove=null;
 
     private boolean waitUntilFinish;
     private FusedLocationProviderClient fusedLocationClient;
@@ -116,44 +118,14 @@ public class MapActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        LiveData<List<PathPoint>> allLive = MainActivity.pathPointRepository.getAllLive();
-        allLive.observe(this, new Observer<List<PathPoint>>() {
+        btnRemove = findViewById(R.id.fabMinus);
+        btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(@Nullable List<PathPoint> pathPoints) {
-                while (mMap==null){
-
-                }
-                if (polyline!=null)polyline.remove();
-                if (polylineViewPath!=null)polylineViewPath.remove();
-                PolylineOptions options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
-                PolylineOptions optionsViewPath = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
-                count = 0;
-                final LatLngBounds.Builder[] builder=new LatLngBounds.Builder[1];
-                builder[0]= new LatLngBounds.Builder();
-                for (PathPoint pathPoint : pathPoints) {
-                    if(pathPoint.isToView()){
-                        optionsViewPath.add(pathPoint.getLatLng());
-
-                    }else {
-                        options.add(pathPoint.getLatLng());
-                    }
-                    builder[0].include(pathPoint.getLatLng());
-                    count++;
-                }
-                polyline = mMap.addPolyline(options);
-                polylineViewPath = mMap.addPolyline(optionsViewPath);
-                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                    @Override
-                    public void onMapLoaded() {
-                        if(count>0){
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder[0].build(), 48));
-                        }
-                    }
-                });
-
+            public void onClick(View v) {
+                MainActivity.pathPointRepository.removeLastPoint();
             }
         });
+
     }
 
     private void btnSaveClicked() {
@@ -314,6 +286,48 @@ public class MapActivity extends AppCompatActivity
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
+            LiveData<List<PathPoint>> allLive = MainActivity.pathPointRepository.getAllLive();
+            allLive.observe(this, new Observer<List<PathPoint>>() {
+                @SuppressLint("RestrictedApi")
+                @Override
+                public void onChanged(@Nullable List<PathPoint> pathPoints) {
+                    if (polyline!=null)polyline.remove();
+                    if (polylineViewPath!=null)polylineViewPath.remove();
+                    PolylineOptions options = new PolylineOptions().width(10).color(Color.RED).geodesic(true);
+                    PolylineOptions optionsViewPath = new PolylineOptions().width(10).color(Color.BLUE).geodesic(true);
+                    count = 0;
+                    final LatLngBounds.Builder[] builder=new LatLngBounds.Builder[1];
+                    builder[0]= new LatLngBounds.Builder();
+                    for (PathPoint pathPoint : pathPoints) {
+                        if(pathPoint.isToView()){
+                            optionsViewPath.add(pathPoint.getLatLng());
+
+                        }else {
+                            options.add(pathPoint.getLatLng());
+                        }
+                        builder[0].include(pathPoint.getLatLng());
+                        count++;
+                    }
+                    polyline = mMap.addPolyline(options);
+                    polylineViewPath = mMap.addPolyline(optionsViewPath);
+                    mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                        @Override
+                        public void onMapLoaded() {
+                            if(count>0){
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder[0].build(), 48));
+                            }
+                        }
+                    });
+
+                    if (btnRemove!=null){
+                        if (MainActivity.pathPointRepository.isAddedPontLeft()){
+                            btnRemove.setVisibility(View.VISIBLE);
+                        }else {
+                            btnRemove.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+            });
 
 
             mMap.setMyLocationEnabled(true);

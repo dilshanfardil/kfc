@@ -76,4 +76,25 @@ public class PathPointRepository {
         }
         pathPontDao.deleteAll(all);
     }
+
+    public void removeLastPoint(){
+        List<PathPoint> all = pathPontDao.getAll();
+        for (int i=all.size()-1;i>=0;i--){
+            PathPoint pathPoint = all.get(i);
+            if (!pathPoint.isToView()){
+                pathPontDao.delete(pathPoint);
+                break;
+            }
+        }
+    }
+
+    public boolean isAddedPontLeft(){
+        List<PathPoint> all = pathPontDao.getAll();
+        for (PathPoint pathPoint : all) {
+            if (!pathPoint.isToView()){
+                return true;
+            }
+        }
+        return false;
+    }
 }
