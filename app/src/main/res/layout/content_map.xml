@@ -41,7 +41,8 @@
         android:background="@drawable/sosbutton"
         android:padding="15dp"
         android:text="SOS"
-        android:textColor="@color/grey_100"
+        android:fontFamily="@font/aclonica"
+        android:textColor="#FFFF"
         android:textSize="18sp"
         android:layout_alignLeft="@+id/map"
         android:layout_margin="@dimen/fab_margin"/>

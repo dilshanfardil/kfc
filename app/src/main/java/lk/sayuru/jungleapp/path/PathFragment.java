@@ -70,40 +70,7 @@ public class PathFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
-        if(PATH_NAME!=null){
-            MainActivity.mRef.child("Map").addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    String key=(String)dataSnapshot.getKey();
-                    if(key.toLowerCase().equals(PATH_NAME.toLowerCase())){
-                        HashMap<String,Object> value=(HashMap<String,Object>)dataSnapshot.getValue();
-                        Set<String> paths = value.keySet();
-                        PathContent.makeDetails((new ArrayList<String>(paths)));
-                        MyPathRecyclerViewAdapter.myPathRecyclerViewAdapter.notifyDataSetChanged();
-                    }
-                }
 
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
     }
 
     @Override
@@ -156,5 +123,44 @@ public class PathFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(PathItem item);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if(PATH_NAME!=null){
+            MainActivity.mRef.child("Map").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    String key=(String)dataSnapshot.getKey();
+                    if(key.toLowerCase().equals(PATH_NAME.toLowerCase())){
+                        HashMap<String,Object> value=(HashMap<String,Object>)dataSnapshot.getValue();
+                        Set<String> paths = value.keySet();
+                        PathContent.makeDetails((new ArrayList<String>(paths)));
+                        MyPathRecyclerViewAdapter.myPathRecyclerViewAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }

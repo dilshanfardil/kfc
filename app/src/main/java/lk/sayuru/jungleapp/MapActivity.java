@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,6 +37,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -79,6 +82,7 @@ public class MapActivity extends AppCompatActivity
     private boolean waitUntilFinish;
     private FusedLocationProviderClient fusedLocationClient;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +90,23 @@ public class MapActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getLocationPermission();
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_enabled},
+                new int[] { android.R.attr.state_pressed}
+        };
+        int[] colors = new int[] {
+                ContextCompat.getColor(this, R.color.fsbTintColor2),
+                ContextCompat.getColor(this, R.color.fsbTintColor)
+        };
+        int[] colors2 = new int[] {
+                ContextCompat.getColor(this, R.color.fsbTintColor),
+                ContextCompat.getColor(this, R.color.fsbTintColor2)
+        };
+        ColorStateList fabColorList = new ColorStateList(states, colors);
+        ColorStateList fabColorList2 = new ColorStateList(states, colors2);
+        findViewById(R.id.fab).setBackgroundTintList(fabColorList);
+        findViewById(R.id.fabMinus).setBackgroundTintList(fabColorList2);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +114,7 @@ public class MapActivity extends AppCompatActivity
                 addMarkerPoint();
             }
         });
+
 
         Button btnSave=findViewById(R.id.btnSavePath);
         btnSave.setOnClickListener(new View.OnClickListener() {

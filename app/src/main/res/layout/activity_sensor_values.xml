@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SensorValues"
-    android:background="@drawable/backgroundwithoutimage">
+    android:background="#FFFF">
 
 
     <TextView
@@ -16,7 +16,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:fontFamily="@font/aclonica"
         android:layout_marginBottom="2dp"
+        android:textSize="20sp"
+        android:textColor="#a5e65c"
         android:text="@string/stations" />
 
     <Spinner
@@ -24,6 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.3"
+        android:textColor="#a5e65c"
+        android:textSize="20sp"
+        android:fontFamily="@font/aclonica"
         android:layout_margin="10dp"/>
 
     <LinearLayout
@@ -31,7 +37,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@drawable/layout_bg_humidity"
+        android:background="@color/colorHumidityBg"
         android:layout_margin="10dp">
 
         <LinearLayout
@@ -47,7 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/humidity_topic"
-                    android:textSize="25sp"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/aclonica"
                     android:textColor="#fff"
                     android:paddingTop="20dp"/>
             </LinearLayout>
@@ -75,16 +82,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/humidityValue"
+                android:fontFamily="@font/aclonica"
                 android:gravity="center_vertical"
                 android:textColor="#fff"
-                android:textSize="60sp" />
+                android:textSize="30sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingTop="40dp"
+                android:fontFamily="@font/aclonica"
                 android:text="@string/humidityPresentageMark"
                 android:textColor="#fff"
-                android:textSize="40sp" />
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -93,7 +102,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@drawable/layout_bg_temperature"
+        android:background="@color/colorTemperatureBg"
         android:layout_margin="10dp">
 
         <LinearLayout
@@ -109,7 +118,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/temperature_topic"
-                    android:textSize="25sp"
+                    android:fontFamily="@font/aclonica"
+                    android:textSize="15sp"
                     android:textColor="#fff"
                     android:paddingTop="20dp"/>
             </LinearLayout>
@@ -137,16 +147,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/temperatureValue"
+                android:fontFamily="@font/aclonica"
                 android:gravity="center_vertical"
                 android:textColor="#fff"
-                android:textSize="60sp" />
+                android:textSize="30sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingTop="40dp"
+                android:fontFamily="@font/aclonica"
                 android:text="@string/temperatureUnit"
                 android:textColor="#fff"
-                android:textSize="40sp" />
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -155,7 +167,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@drawable/layout_bg_rainfall"
+        android:background="@color/colorRainfallBg"
         android:layout_margin="10dp">
 
         <LinearLayout
@@ -171,7 +183,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rainfall_topic"
-                    android:textSize="25sp"
+                    android:fontFamily="@font/aclonica"
+                    android:textSize="15sp"
                     android:textColor="#fff"
                     android:paddingTop="20dp"/>
             </LinearLayout>
@@ -199,13 +212,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/rainfallValue"
+                android:fontFamily="@font/aclonica"
                 android:gravity="center_vertical"
                 android:textColor="#fff"
-                android:textSize="60sp" />
+                android:textSize="30sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingTop="50dp"
+                android:fontFamily="@font/aclonica"
                 android:text="@string/rainfallUnit"
                 android:textColor="#fff"
                 android:textSize="20sp" />
@@ -217,7 +232,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:background="@drawable/layout_bg_pressure"
+        android:background="@color/colorPressureBg"
         android:layout_margin="10dp">
 
         <LinearLayout
@@ -233,8 +248,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Pressure_topic"
-                    android:textSize="25sp"
+                    android:textSize="15sp"
                     android:textColor="#fff"
+                    android:fontFamily="@font/aclonica"
                     android:paddingTop="20dp"/>
             </LinearLayout>
 
@@ -261,14 +277,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/pressureValue"
+                android:fontFamily="@font/aclonica"
                 android:gravity="center_vertical"
                 android:textColor="#fff"
-                android:textSize="60sp" />
+                android:textSize="30sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingTop="50dp"
                 android:text="@string/pressureUnit"
+                android:fontFamily="@font/aclonica"
                 android:textColor="#fff"
                 android:textSize="20sp" />
         </LinearLayout>

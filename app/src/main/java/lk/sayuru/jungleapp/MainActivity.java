@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mRef= FirebaseDatabase.getInstance().getReference();
         mRef.keepSynced(true);
         contactRepository=new ContactRepository(this);
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         updateUI(MainActivity.FIREBASE_USER);
         // [END initialize_auth]
 
-        Button signInWithGoogle = findViewById(R.id.btnSignInWithGoogle);
+        com.google.android.gms.common.SignInButton signInWithGoogle = findViewById(R.id.btnSignInWithGoogle);
         signInWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

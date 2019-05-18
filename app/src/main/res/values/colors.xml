@@ -7,8 +7,11 @@
 
     <color name="colorWhite">#fff</color>
     <color name="colorShadowBg">#CABBBBBB</color>
-    <color name="colorPressureBg">#880e4f</color>
-    <color name="colorHumidityBg">#0d47a1</color>
-    <color name="colorRainfallBg">#2962ff</color>
-    <color name="colorTemperatureBg">#E65100</color>
+    <color name="colorPressureBg">#FFC300</color>
+    <color name="colorHumidityBg">#0000FF</color>
+    <color name="colorRainfallBg">#00FF00</color>
+    <color name="colorTemperatureBg">#FF0000</color>
+    <color name="fsbTintColor">#D81B60</color>
+    <color name="fsbTintColor2">#008577</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

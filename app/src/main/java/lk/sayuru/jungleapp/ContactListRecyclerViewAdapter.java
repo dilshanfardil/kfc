@@ -40,7 +40,7 @@ public class ContactListRecyclerViewAdapter extends RecyclerView.Adapter<Contact
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).name);
-
+        holder.mPhoneNo.setText(mValues.get(position).phoneNumber);
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,12 +67,14 @@ public class ContactListRecyclerViewAdapter extends RecyclerView.Adapter<Contact
         public final TextView mIdView;
         public final TextView mContentView;
         public ContactContent.ContactItem mItem;
+        public final TextView mPhoneNo;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mPhoneNo =(TextView) view.findViewById(R.id.phoneNo);
         }
 
         @Override

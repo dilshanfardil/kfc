@@ -10,8 +10,8 @@
             android:title="SOS Contacts" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Whether" />
+            android:icon="@drawable/sosbutton"
+            android:title="Weather" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
