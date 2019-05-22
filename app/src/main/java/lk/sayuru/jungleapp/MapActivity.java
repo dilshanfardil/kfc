@@ -8,10 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -54,10 +57,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener , OnMapReadyCallback {
@@ -82,7 +89,6 @@ public class MapActivity extends AppCompatActivity
     private boolean waitUntilFinish;
     private FusedLocationProviderClient fusedLocationClient;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,8 +110,11 @@ public class MapActivity extends AppCompatActivity
         };
         ColorStateList fabColorList = new ColorStateList(states, colors);
         ColorStateList fabColorList2 = new ColorStateList(states, colors2);
-        findViewById(R.id.fab).setBackgroundTintList(fabColorList);
-        findViewById(R.id.fabMinus).setBackgroundTintList(fabColorList2);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            findViewById(R.id.fab).setBackgroundTintList(fabColorList);
+            findViewById(R.id.fabMinus).setBackgroundTintList(fabColorList2);
+        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +156,45 @@ public class MapActivity extends AppCompatActivity
                 MainActivity.pathPointRepository.removeLastPoint();
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View view = navigationView.getHeaderView(0);
+        TextView name=view.findViewById(R.id.txtUserName);
+        TextView email=view.findViewById(R.id.txtUserEmail);
+        ImageView imageView=view.findViewById(R.id.imageViewUser);
+        name.setText(MainActivity.FIREBASE_USER.getDisplayName());
+        email.setText(MainActivity.FIREBASE_USER.getEmail());
+        new DownloadImageTask(imageView).execute(String.valueOf(MainActivity.FIREBASE_USER.getPhotoUrl()));
+
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
     private void btnSaveClicked() {
@@ -283,7 +330,9 @@ public class MapActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            MainActivity.mainActivity.signOut();
+            startActivity(new Intent(MapActivity.this,MainActivity.class));
+            finish();
         } else if (id == R.id.nav_send) {
 
         }
@@ -310,7 +359,7 @@ public class MapActivity extends AppCompatActivity
             }
             LiveData<List<PathPoint>> allLive = MainActivity.pathPointRepository.getAllLive();
             allLive.observe(this, new Observer<List<PathPoint>>() {
-                @SuppressLint("RestrictedApi")
+//                @SuppressLint("RestrictedApi")
                 @Override
                 public void onChanged(@Nullable List<PathPoint> pathPoints) {
                     if (polyline!=null)polyline.remove();
@@ -421,7 +470,11 @@ public class MapActivity extends AppCompatActivity
 
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+            mLocationPermissionGranted = true;
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            initMap();
+        }
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionGranted = true;
@@ -463,12 +516,18 @@ public class MapActivity extends AppCompatActivity
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 List<Contact> contacts = MainActivity.contactRepository.getAll();
-                                String msg="http://www.google.com/maps/place/"+location.getLatitude()+","+location.getLongitude();
+                                String msg="I'm in a emergency at http://www.google.com/maps/place/"+location.getLatitude()+","+location.getLongitude();
                                 for (Contact contact : contacts) {
                                     String[] split = contact.getPhoneNo().split(",");
                                     for (String s : split) {
                                         smsManager.sendTextMessage(s, null, msg, null, null);
                                     }
+                                }
+                                try {
+                                    String encrypt = AESUtils.encrypt(msg);
+                                    MainActivity.mRef.child("Emergency Messages").child(MainActivity.FIREBASE_USER.getUid()).setValue(encrypt);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
                         }

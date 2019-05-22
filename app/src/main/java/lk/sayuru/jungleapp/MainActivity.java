@@ -46,6 +46,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
+    public static MainActivity mainActivity;
     public static DatabaseReference mRef;
     public static FirebaseUser FIREBASE_USER = null;
     public static ContactRepository contactRepository;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mainActivity=MainActivity.this;
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         setContentView(R.layout.activity_main);
