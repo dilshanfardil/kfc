@@ -166,10 +166,11 @@ public class MapActivity extends AppCompatActivity
         TextView name=view.findViewById(R.id.txtUserName);
         TextView email=view.findViewById(R.id.txtUserEmail);
         ImageView imageView=view.findViewById(R.id.imageViewUser);
-        name.setText(MainActivity.FIREBASE_USER.getDisplayName());
-        email.setText(MainActivity.FIREBASE_USER.getEmail());
-        new DownloadImageTask(imageView).execute(String.valueOf(MainActivity.FIREBASE_USER.getPhotoUrl()));
-
+        if(MainActivity.FIREBASE_USER!=null ){
+            name.setText(MainActivity.FIREBASE_USER.getDisplayName());
+            email.setText(MainActivity.FIREBASE_USER.getEmail());
+            new DownloadImageTask(imageView).execute(String.valueOf(MainActivity.FIREBASE_USER.getPhotoUrl()));
+        }
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -516,7 +517,8 @@ public class MapActivity extends AppCompatActivity
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 List<Contact> contacts = MainActivity.contactRepository.getAll();
-                                String msg="I'm in a emergency at http://www.google.com/maps/place/"+location.getLatitude()+","+location.getLongitude();
+                                String msg="I went on a hike and lost my way. This is my current " +
+                                        "location (http://www.google.com/maps/place/"+location.getLatitude()+","+location.getLongitude()+" ), please come find me or send help.";
                                 for (Contact contact : contacts) {
                                     String[] split = contact.getPhoneNo().split(",");
                                     for (String s : split) {
@@ -525,7 +527,7 @@ public class MapActivity extends AppCompatActivity
                                 }
                                 try {
                                     String encrypt = AESUtils.encrypt(msg);
-                                    MainActivity.mRef.child("Emergency Messages").child(MainActivity.FIREBASE_USER.getUid()).setValue(encrypt);
+                                    MainActivity.mRef.child("Emergency Messages").child(MainActivity.FIREBASE_USER.getDisplayName()).setValue(encrypt);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

@@ -6,53 +6,86 @@
     android:orientation="vertical"
     android:layout_margin="@dimen/default_gap">
 
-    <TextView
-        android:id="@+id/item_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:fontFamily="@font/aclonica"
-        android:textColor="#1b5e20"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textSize="20sp" android:visibility="gone"/>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:fontFamily="@font/aclonica"
-            android:textColor="#1b5e20"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:textSize="20sp"/>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="4">
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="30dp"
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/avatar"
+            android:contentDescription="TODO" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-            android:contentDescription="Close"
-            android:layout_gravity="end|right"/>
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/default_gap"
+                android:layout_marginLeft="@dimen/default_gap">
+                <TextView
+                    android:id="@+id/item_number"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/aclonica"
+                    android:textColor="#1b5e20"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:textSize="20sp"
+                    android:text="1"/>
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                    android:contentDescription="Close"
+                    android:layout_gravity="end|right"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/aclonica"
+                android:textColor="#1b5e20"
+                android:text="lahiru"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="20sp"
+                android:layout_marginLeft="@dimen/default_gap"
+                android:layout_marginStart="@dimen/default_gap"/>
+
+            <TextView
+                android:id="@+id/phoneNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:fontFamily="@font/aclonica"
+                android:textColor="#1b5e20"
+                android:layout_marginStart="@dimen/default_gap"
+                android:layout_marginLeft="@dimen/default_gap"
+                />
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
-    <TextView
-        android:id="@+id/phoneNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView"
-        android:fontFamily="@font/aclonica"
-        android:textColor="#1b5e20"
-        android:layout_gravity="end|right"
-        />
+
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/default_gap"
         android:background="?android:attr/listDivider" />
 </LinearLayout>

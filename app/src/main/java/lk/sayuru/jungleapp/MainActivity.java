@@ -322,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         if(user != null){
             Toast.makeText(this,"Login Done : "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
+            FIREBASE_USER = mAuth.getCurrentUser();
             startActivity(new Intent(MainActivity.this,ChooseActivity.class));
             finish();
         }else{

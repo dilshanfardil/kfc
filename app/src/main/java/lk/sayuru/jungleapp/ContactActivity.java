@@ -112,7 +112,7 @@ public class ContactActivity extends AppCompatActivity implements ContactListFra
                             Cursor numbers = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId, null, null);
                             while (numbers.moveToNext()) {
                                 String num = numbers.getString(numbers.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                if(!nums.contains(num))nums+=num+",";
+                                if(!nums.contains(num))nums=num;
                                 Toast.makeText(ContactActivity.this, "Number=" + nums, Toast.LENGTH_LONG).show();
                             }
                         }
