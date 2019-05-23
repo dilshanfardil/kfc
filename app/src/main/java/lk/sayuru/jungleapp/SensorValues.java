@@ -56,13 +56,7 @@ public class SensorValues extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = (String) adapter.getItem(position);
 //                DatabaseReference sensorStations = mRef.getDatabase().getReference().child("SensorStations").child(item);
-                HashMap<String, Object> details = dataHashMap.get(item);
-                SensorStations sensorStations = new SensorStations();
-                sensorStations.setTemperature((double)details.get("Temperature"));
-                sensorStations.setPressure((double)details.get("Pressure"));
-                sensorStations.setRainFall((double)details.get("RainFall"));
-                sensorStations.setHumidity((double)details.get("Humidity"));
-                setValuesToFields(sensorStations);
+                updateValues(item);
             }
 
             @Override
@@ -92,6 +86,7 @@ public class SensorValues extends AppCompatActivity {
                 if(dataSnapshot.getKey().equals("SensorStations")){
                     dataHashMap = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
                     System.out.println("d");
+                    updateValues((String) spinner.getSelectedItem());
                 }
 //                selectedItem = spinner.getSelectedItem().toString();
 //                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
@@ -127,6 +122,16 @@ public class SensorValues extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void updateValues(String item) {
+        HashMap<String, Object> details = dataHashMap.get(item);
+        SensorStations sensorStations = new SensorStations();
+        sensorStations.setTemperature((double)details.get("Temperature"));
+        sensorStations.setPressure((double)details.get("Pressure"));
+        sensorStations.setRainFall((double)details.get("RainFall"));
+        sensorStations.setHumidity((double)details.get("Humidity"));
+        setValuesToFields(sensorStations);
     }
 
     private void initialSetText(DatabaseReference sensorValues) {
